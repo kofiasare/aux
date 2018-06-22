@@ -42,12 +42,15 @@ func Factorial(n int) int {
 // Fibonacci returns the `int[]` fibonacci series
 // of `n`
 func Fibonacci(n int) (r []int) {
-	a, b := 0, 1
-	for i := 0; i < n; i++ {
-		r = append(r, b)
-		a, b = b, (a + b)
+	if n > 0 {
+		a, b := 0, 1
+		Loop(n, func(i int) {
+			r = append(r, b)
+			a, b = b, (a + b)
+		})
+		return
 	}
-	return r
+	return
 }
 
 // Next returns the successor of i
@@ -58,7 +61,14 @@ func Next(i interface{}) interface{} {
 	}
 
 	if isString(i) {
-		return argVal(i).Interface().(string)
+		c := []byte(i.(string))
+		l := c[len(c)-1]
+
+		if string(l) != "z" {
+			return string(l + 1)
+		}
+
+		return "a"
 	}
 
 	panic("Parameter must be an integer or a string")
